@@ -43,7 +43,7 @@
             var conn = peer.connect(a);
             conn.on('open', function() {
               // Send messages
-              conn.send('Hello!');
+              conn.send({data:'Hello'});
             });
         }
         sendConnection()">
