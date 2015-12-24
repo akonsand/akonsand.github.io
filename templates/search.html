@@ -1,0 +1,100 @@
+<div class="grid-frame">
+  <div zf-panel position="left" id="sidebar" class="medium-grid-block collapse medium-3 large-3 vertical">
+    <div class="grid-content collapse shrink hide-for-medium">
+      <a href="" class="secondary button expand" zf-close>Close</a>
+    </div>
+    <div class="grid-content collapse shrink">
+      <ul class="primary condense menu-bar">
+        <li><a><strong>Sportify</strong></a></li>
+      </ul>
+    </div>
+    <div class="vertical grid-block">
+        <h7 class="list-header">Category Filter</h7>
+        <div class="grid-block" style="height: 15vh; overflow-y: hidden;">
+          <div class="grid-content">
+          <section class="block-list scrollable">
+            <ul scrollable="">
+              <li ng-repeat="cat in categories"><input id="{{cat}}" ng-click="filter(cat);" type="checkbox"> <label for="{{cat}}">{{cat}}</label></li>
+            </ul>
+          </section>
+          </div>
+        </div>
+        <h7 class="list-header">Related Topics</h7>
+        <div class="grid-block" style="height: 15vh; overflow-y: hidden;">
+          <div class="grid-content">
+          <section class="block-list">
+            <ul scrollable>
+              <li ng-repeat="facet in displayFacets"><a ng-click="searchFacets(facet);">{{facet}}</a></li>
+            </ul>
+          </section>
+          </div>
+        </div>
+    </div>
+  </div>
+
+  <div class="grid-block collapse medium-9 large-9 vertical">
+    <div id="header" class="shrink collapse grid-content">
+      <ul class="menu-bar primary">
+        <li class="hide-for-medium small"><a zf-open="sidebar" href="#"><img zf-iconic="" icon="comment-square" size="small" class="settings iconic-color-primary"></a></li>
+        <li class="medium-10">
+          <form ng-submit="search()"><input class="search-bar" ng-model="searchInput" placeholder="Search"></form>
+        </li>
+        <li class="small-1">
+          <a ng-click="search()">
+            <img zf-iconic="" icon="magnifying-glass" size="small" class="settings iconic-color-primary">
+          </a>
+        </li>
+        <li class="small-1" zf-open="info">
+          <a ng-click="createChartData()">
+            <img zf-iconic="" icon="cog" size="small" class="settings iconic-color-primary">
+          </a>
+        </li>
+      </ul>
+    </div>
+    <div id="tweets" class="grid-block scroll-section">
+      <!-- Bhavika.. the div below hods the wikipedia content. Use the  {{}} style to show the variables from the controller-->
+      <div class="small-6 medium-6 large-6 grid-content overflow-hidden" ng-show="showWiki">
+        <div class="card slideLeft" >
+          <div class="card-divider tweet_header_preview">
+            <!-- Replace the variable with wikipedia title here-->
+            {{wikiTitle}}
+          </div>
+          <div class="card-section">
+            <!-- Replace the page with wikipedia content here-->
+            {{wikiSummary}}
+          </div>
+        </div>
+      </div>
+      <div class="small-6 medium-6 large-6 grid-content overflow-hidden" ng-repeat="document in documents">
+        <div class="card slideLeft" ng-click="show(doc)" ng-repeat="doc in document">
+          <div class="card-divider tweet_header_preview">
+            {{doc.user_name}}
+          </div>
+          <div class="card-section">
+            <p ng-show="doc.lang=='en'" ng-bind-html="doc.text_en | linky"></p>
+            <p ng-show="doc.lang=='de'" ng-bind-html="doc.text_de | linky"></p>
+            <p ng-show="doc.lang=='es'" ng-bind-html="doc.text_es | linky"></p>
+            <p ng-show="doc.lang=='fr'" ng-bind-html="doc.text_fr | linky"></p>
+            <p ng-show="doc.lang=='hi'" ng-bind-html="doc.text_hi | linky"></p>
+            <span ng-repeat="tags in doc.content_tag| limitTo:3" class="label label-tag" ng-click="searchTag($event,tags)">{{tags}}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div zf-panel position="right" id="info" class="collapse medium-3 large-3 vertical">
+    <div class="grid-content">
+      <a href="" class="close-button" zf-close>×</a>
+      <h4>Graphical Data</h4>
+      <h5>Language distribution</h5>
+      <canvas id="line" class="chart chart-line" chart-data="data"
+              chart-labels="labels" chart-legend="true" chart-series="series"
+              chart-click="onClick" >
+      </canvas>
+    </div>
+  </div>
+</div>
+
+
+
